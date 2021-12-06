@@ -2,11 +2,10 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include "hash_map.h"
+#include "simple_linked_list.h"
 
 int main(int argc, char** argv) {
-    hash_map* map = create_hash_map_str("aaahi", "ok mon pote !");
-    char* b = (char*)delete_hash_map_str(map, "aaahi", 0);
-    printf("%s", b);
+    simple_linked_list* list = create_simple_linked_list("kiejkje");
+    add_simple_node(list, "jfejhfhejfehjhj");
     return 0;
 }

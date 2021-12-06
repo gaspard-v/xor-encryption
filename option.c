@@ -2,6 +2,7 @@
 #include <string.h>
 #include "option.h"
 #include "hash_map.h"
+#include "simple_linked_list.h"
 
 static hash_map* option_map = NULL;
 static hash_map* arg_map = NULL;
@@ -41,45 +42,59 @@ static void set_opt(option* opts,
     strncpy(opt->description, description, description_size);
     opt->is_optional = is_optional;
     opt->opt_arg = opt_arg;
-    create_or_add_hash_map_str(&option_map, small_opt, opt);
-    create_or_add_hash_map_str(&option_map, long_opt, opt);
+    create_or_add_hash_map_str(&option_map, small_opt, 0, opt, 1, 0);
+    create_or_add_hash_map_str(&option_map, long_opt, 0, opt, 1, 0);
     current_idx++;
 }
 
 static void parse_opt(int argc, char* argv[])
 {
-    uint8_t nb_excpeted_arg = 0;
-    char* last_argv = NULL;
-    size_t idx = 1;
-
-    char** mult_args = NULL;
-    size_t nb_mult_args = 0;
+    char* current_arg = NULL;
+    char* last_arg = NULL;
+    uint8_t expected_args = 0;
+    simple_linked_list* list = NULL;
     for(int i = 0 ; i < argc ; i++)
     {
-        if(is_a_arg(argv[i])) {
-            option* opt = (option*)get_hash_map_str(option_map, argv[i]);
-            if(opt == NULL)
+        current_arg = argv[i];
+        if(is_a_arg(current_arg))
+        {
+            if(!expected_args)
             {
-                printf("\"%s\" n'existe pas !", argv[i]);
-                return;
+                option* opt = get_hash_map_str(option_map, current_arg);
+                if(opt != NULL)
+                {
+                    create_or_add_hash_map_str(&arg_map, current_arg, 0, NULL, 0, 0);
+                    expected_args = opt->opt_arg;
+                } else {
+                    //arg doe not exist
+                }
+            } else {
+                //error
             }
-            nb_excpeted_arg = opt->opt_arg;
-            if(nb_excpeted_arg == 0)
-            {
-                create_or_add_hash_map_str(&arg_map, opt->small_opt, (void*)1);
-            } else if (nb_excpeted_arg > 1) {
-                nb_mult_args++;
-                mult_args = calloc(nb_mult_args, sizeof(char*));
-                create_or_add_hash_map_str(&arg_map, opt->small_opt, (void*)mult_args);
-            }
-            last_argv = opt->small_opt;
-            continue;
         }
-        if(nb_excpeted_arg == 1) {
-            char* tmp = calloc(strlen(argv[i]) + 1, sizeof(char));
-            create_or_add_hash_map_str(&arg_map, last_argv, (void*)tmp);
-        } else {
-            
+        else if(expected_args == 0 && last_arg == NULL)
+        {
+            //unexpected arg
+        }
+        else if(expected_args == 0)
+        {
+            uint8_t tmp = 1;
+            modify_hash_map_str_auto(arg_map, last_arg, sizeof(uint8_t), (void*)(&tmp)); //boolean
+        }
+        else if(expected_args == 1)
+        {
+            modify_hash_map_str_auto(arg_map, last_arg, strlen(current_arg), current_arg);
+            expected_args = 0;
+        }
+        else 
+        {
+            coa_simple_linked_list(&list, current_arg);
+            modify_hash_map_str_auto(arg_map, last_arg, strlen(current_arg), current_arg);
+            if((i+1) < argc)
+            {
+                if(is_a_arg(argv[i+1]))
+                    expected_args = 0;
+            }
         }
     }
 }
@@ -94,7 +109,7 @@ void init_opt(void)
             "generate a key of [number] size", 0, 1);
 }
 
-void delete_opt(void)
+void free_opt(void)
 {
     for(size_t i = 0 ; i < option_size ; i++)
     {

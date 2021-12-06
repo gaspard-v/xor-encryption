@@ -9,5 +9,5 @@ typedef struct option {
     uint8_t opt_arg;
 } option;
 void init_opt(void);
-void delete_opt(void);
+void free_opt(void);
 #endif
