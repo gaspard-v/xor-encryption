@@ -8,6 +8,6 @@ typedef struct option {
     uint8_t is_optional;
     uint8_t opt_arg;
 } option;
-void init_opt(void);
+void init_opt(int argc, char* argv[]);
 void free_opt(void);
 #endif

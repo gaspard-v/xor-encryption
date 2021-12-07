@@ -53,7 +53,7 @@ static void parse_opt(int argc, char* argv[])
     char* last_arg = NULL;
     uint8_t expected_args = 0;
     simple_linked_list* list = NULL;
-    for(int i = 0 ; i < argc ; i++)
+    for(int i = 1 ; i < argc ; i++)
     {
         current_arg = argv[i];
         if(is_a_arg(current_arg))
@@ -65,11 +65,12 @@ static void parse_opt(int argc, char* argv[])
                 {
                     create_or_add_hash_map_str(&arg_map, current_arg, 0, NULL, 0, 0);
                     expected_args = opt->opt_arg;
+                    last_arg = current_arg;
                 } else {
                     //arg doe not exist
                 }
             } else {
-                //error
+                //unexpected arg
             }
         }
         else if(expected_args == 0 && last_arg == NULL)
@@ -89,7 +90,7 @@ static void parse_opt(int argc, char* argv[])
         else 
         {
             coa_simple_linked_list(&list, current_arg);
-            modify_hash_map_str_auto(arg_map, last_arg, strlen(current_arg), current_arg);
+            modify_hash_map_str(arg_map, last_arg, 0, list, 1, 0, 0);
             if((i+1) < argc)
             {
                 if(is_a_arg(argv[i+1]))
@@ -99,7 +100,7 @@ static void parse_opt(int argc, char* argv[])
     }
 }
 
-void init_opt(void)
+void init_opt(int argc, char* argv[])
 {
     option_size = 2;
     opts_t = calloc(option_size, sizeof(option));
@@ -107,6 +108,7 @@ void init_opt(void)
             "File to encrypt or decrypt", 0, 2);
     set_opt(opts_t, "-g", "--genkey",
             "generate a key of [number] size", 0, 1);
+    parse_opt(argc,argv);
 }
 
 void free_opt(void)

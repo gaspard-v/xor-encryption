@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "display_utils.h"
+#include "option.h"
 void display_help(size_t nb_opt, option opts[], char exec_name[])
 {
     fprintf(stdout, "%s", exec_name);

@@ -87,7 +87,8 @@ uint8_t coa_simple_linked_list(simple_linked_list** list, void* data)
 {
     if(*list == NULL)
     {
-        return (create_simple_linked_list(data) == NULL) ? 0 : 1;
+        *list = create_simple_linked_list(data);
+        return (*list)? 1 : 0;
     }
     return add_simple_node(*list, data);
 }
