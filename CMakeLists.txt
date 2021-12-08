@@ -22,8 +22,18 @@ set(HEADERS
     simple_linked_list.h 
     xor_cipher.h)
 
-set(GCC_COVERAGE_COMPILE_FLAGS "-mrdrnd -Werror=vla -g")
-add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
+set(GCC_COVERAGE_COMPILE_FLAGS -mrdrnd -Werror=vla -pedantic-errors -Werror -Wall -Wextra)
+set(GCC_DEBUG_FLAGS -O0)
+set(GCC_RELEASE_FLAGS -03)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(${GCC_COVERAGE_COMPILE_FLAGS})
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        add_compile_options(${GCC_DEBUG_FLAGS})
+    elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+        add_compile_options(${GCC_RELEASE_FLAGS})
+    endif()
+endif()
 add_executable(${PROJECT_NAME} ${SRCS} ${HEADERS})
 
 set(CMAKE_C_STANDARD 17)
