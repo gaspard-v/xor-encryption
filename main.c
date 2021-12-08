@@ -5,6 +5,7 @@
 #include "option.h"
 
 int main(int argc, char** argv) {
+    printf("Hello world !\n");
     init_opt(argc, argv);
     return 0;
 }

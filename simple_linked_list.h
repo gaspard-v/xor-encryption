@@ -15,4 +15,5 @@ void* delete_simple_node(simple_linked_list* list, uint32_t position);
 void* foreach_simple_node(simple_linked_list* list, 
                           simple_linked_list** current_list, 
                           uint32_t* idx);
+uint32_t sizeof_simple_linked_list(simple_linked_list* list);
 #endif

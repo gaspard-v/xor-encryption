@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "xor_cypher.h"
+#include "xor_cipher.h"
 #include "random_utils.h"
 void* XOR_enc_dec(size_t message_size, void* restrict message,
                      size_t key_size, void* restrict key)
