@@ -23,6 +23,14 @@ static inline uint8_t is_a_arg(char* arg)
     return (arg[0] == '-');
 }
 
+static uint8_t free_option(option* opt)
+{
+    free(opt->long_opt);
+    free(opt->description);
+    free(opt);
+    return 1;
+}
+
 static void set_opt(option* opts,  
             char small_opt[3],
             char long_opt[30],
@@ -42,11 +50,11 @@ static void set_opt(option* opts,
     strncpy(opt->description, description, description_size);
     opt->is_optional = is_optional;
     opt->opt_arg = opt_arg;
-    create_or_add_hash_map_str(&option_map, small_opt, 0, opt, 1, 0);
-    create_or_add_hash_map_str(&option_map, long_opt, 0, opt, 1, 0);
+    create_or_add_hash_map_str(&option_map, small_opt, 0, opt, 0, free_option);
+    create_or_add_hash_map_str(&option_map, long_opt, 0, opt, 0, free_option);
     current_idx++;
 }
-
+//TODO Modifier hash map !
 static void parse_opt(int argc, char* argv[])
 {
     char* current_arg = NULL;
