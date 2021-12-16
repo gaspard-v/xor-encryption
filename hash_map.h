@@ -48,7 +48,14 @@ uint8_t create_or_add_hash_map(hash_map** hashmap,
                                uint8_t deepcopy,
                                uint8_t (*free_callback)(void*));
 
-
+void* modify_hash_map(hash_map* hashmap, 
+                      size_t key_size, 
+                      void* restrict key,
+                      size_t value_size, 
+                      void* restrict value,
+                      uint8_t auto_free,
+                      uint8_t deepcopy,
+                      uint8_t (*free_callback)(void*));
 
 
 static inline hash_map* create_hash_map_str(char* restrict key,

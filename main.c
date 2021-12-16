@@ -6,5 +6,6 @@
 
 int main(int argc, char** argv) {
     init_opt(argc, argv);
+    free_option_all();
     return 0;
 }
