@@ -10,6 +10,7 @@ set(SRCS
     random_utils.c 
     simple_linked_list.c 
     xor_cipher.c
+    file_io.c
     main.c)
 
 set(HEADERS
@@ -19,7 +20,8 @@ set(HEADERS
     hash_map.h 
     option.h
     random_utils.h
-    simple_linked_list.h 
+    simple_linked_list.h
+    file_io.h
     xor_cipher.h)
 
 set(GCC_COVERAGE_COMPILE_FLAGS -mrdrnd -Werror=vla -pedantic-errors -Werror -Wall -Wextra)
