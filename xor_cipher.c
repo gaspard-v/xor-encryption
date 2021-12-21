@@ -1,23 +1,25 @@
 #include <stdlib.h>
 #include "xor_cipher.h"
 #include "random_utils.h"
-void* XOR_enc_dec(size_t message_size, void* restrict message,
-                     size_t key_size, void* restrict key)
+uint8_t XOR_enc_dec(void * buffer,
+                  size_t message_size, 
+                  void* restrict message, 
+                  size_t key_size, 
+                  void* restrict key,
+                  size_t offset)
 {
-    char* retour = calloc(message_size, sizeof(char));
-    for(size_t i = 0 ; i < message_size ; i++)
+    for(size_t i = offset ; i < message_size ; i++)
     {
-        retour[i] = ((char*)message)[i] ^ ((char*)key)[i%key_size];
+        ((char*)buffer)[i] = ((char*)message)[i] ^ ((char*)key)[i%key_size];
     }
-    return (void*)retour;
+    return 1;
 }
 
-void* KEY_creation(size_t key_size)
+uint8_t KEY_creation(void * buffer, size_t key_size)
 {
-    char* key = calloc(key_size, sizeof(char));
     for(size_t i = 0 ; i < key_size ; i++)
     {
-        key[i] = get_random_char();
+        ((char*)buffer)[i] = get_random_char();
     }
-    return (void*)key;
+    return 1;
 }

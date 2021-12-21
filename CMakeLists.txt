@@ -24,7 +24,7 @@ set(HEADERS
     file_io.h
     xor_cipher.h)
 
-set(GCC_COVERAGE_COMPILE_FLAGS -mrdrnd -Werror=vla -pedantic-errors -Werror -Wall -Wextra)
+set(GCC_COVERAGE_COMPILE_FLAGS -mrdrnd -Werror=vla -pedantic-errors -Werror -Wall -Wextra -Wno-unused-parameter)
 set(GCC_DEBUG_FLAGS -O0)
 set(GCC_RELEASE_FLAGS -03)
 
