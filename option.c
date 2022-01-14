@@ -1,9 +1,11 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "option.h"
 #include "hash_map.h"
 #include "simple_linked_list.h"
 #include "display_utils.h"
+#include "debug.h"
 
 static hash_map* option_map = NULL;
 static hash_map* arg_map = NULL;
@@ -45,7 +47,17 @@ static void set_opt(option* opts,
     size_t long_opt_size = strnlen(long_opt, 30)+1;
     size_t description_size = strnlen(description, 200)+1;
     opt->long_opt = calloc(long_opt_size, sizeof(char));
+    if (opt->long_opt == NULL) {
+        fprintf(stderr, "Unable to calloc! size: %llu", long_opt_size);
+        DEBUG_PRINT(("Unable to calloc! file \"%s\", line %u size: %llu", __FILE__, __LINE__, long_opt_size));
+        return;
+    }
     opt->description = calloc(description_size, sizeof(char));
+    if (opt->description == NULL) {
+        fprintf(stderr, "Unable to calloc! size: %llu", description_size);
+        DEBUG_PRINT(("Unable to calloc! file \"%s\", line %u size: %llu", __FILE__, __LINE__, description_size));
+        return;
+    }
     strncpy(opt->small_opt, small_opt, 3);
     strncpy(opt->long_opt, long_opt, long_opt_size);
     strncpy(opt->description, description, description_size);
