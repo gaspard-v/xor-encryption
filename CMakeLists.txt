@@ -12,7 +12,7 @@ set(SRCS
     xor_cipher.c
     file_io.c
     main.c 
-    debug.h)
+    test.c)
 
 set(HEADERS
     base64_utils.h 
@@ -24,7 +24,8 @@ set(HEADERS
     simple_linked_list.h
     file_io.h
     xor_cipher.h
-    debug.h)
+    debug.h
+    test.h)
 
 set(GCC_COVERAGE_COMPILE_FLAGS -mrdrnd -Werror=vla -pedantic-errors -Werror -Wall -Wextra -Wno-unused-parameter)
 set(GCC_DEBUG_FLAGS -O0)

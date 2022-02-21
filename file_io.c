@@ -13,7 +13,7 @@ static size_t get_file_size(FILE* file)
         exit(1);
     }
     size_t size = 0;
-    if(size = ftell(file) == 1L)
+    if((size = ftell(file)) == 1L)
     {
         perror("Error ftell ");
         exit(1);
@@ -31,7 +31,6 @@ uint8_t encrypt_file(FILE* file, size_t key_size, char* key ,size_t block_size)
     size_t file_size = get_file_size(file);
     size_t read_pos = 0L;
     size_t read_block = 0L;
-    size_t output = 0L;
     for(;;)
     {
         if(read_pos + block_size > file_size)
