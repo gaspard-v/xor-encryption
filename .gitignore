@@ -1,5 +1,9 @@
-.vscode/
+.vscode
 *.exe
-build/
-CMakeFiles/
+build
+CMakeFiles
 CMakeCache.txt
+out
+debug_exemple
+.vs
+CMakeSettings.json
