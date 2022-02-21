@@ -5,10 +5,10 @@
 #include "simple_linked_list.h"
 #include "display_utils.h"
 
-static hash_map* option_map = NULL;
-static hash_map* arg_map = NULL;
-static option* opts_t = NULL;
-static size_t option_size = 0;
+static hash_map* option_map = NULL; //Map of all options
+static hash_map* arg_map = NULL; //map of arg passed to the programme
+static option* opts_t = NULL; //structure of options
+static size_t option_size = 0; //size of all options
 
 static void set_opt(option* opts,  
             char small_opt[3],
