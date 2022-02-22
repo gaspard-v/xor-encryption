@@ -1,6 +1,8 @@
 #include "test.h"
 #include "conversion_utils.h"
 #include "base64_utils.h"
+#include "simple_linked_list.h"
+#include "linux_color.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -11,7 +13,22 @@ struct func_test {
 };
 static struct func_test func_ptr[FUNC_NB] = {{ .func_ptr = test_byte_to_binary, .func_name = "test bytes to binary string" }, 
                                              { .func_ptr = test_base64_encrypt, .func_name = "test base64 encrypt" },
-                                             { .func_ptr = test_base64_decrypt, .func_name = "test base64 decrypt" }};
+                                             { .func_ptr = test_base64_decrypt, .func_name = "test base64 decrypt" },
+                                             { .func_ptr = test_create_sl_list, .func_name = "test creation linked list" }};
+                                            
+uint8_t test_create_sl_list(void)
+{
+    char test[10] = "ABCDEFGHI";
+    simple_linked_list* list = NULL;
+    if(coa_simple_linked_list(&list, test) == 0)
+        return EXIT_FAILURE;
+    char *response = (char*)get_last_simple_node(list);
+    int retour = strncmp(test, response, 10);
+    free(list);
+    if(retour)
+        return EXIT_FAILURE;
+    return EXIT_SUCCESS;
+}
 
 uint8_t test_base64_decrypt(void)
 {
@@ -55,16 +72,20 @@ uint8_t test_main(void)
     uint8_t return_code = EXIT_SUCCESS;
     for(uint16_t i ; i < FUNC_NB ; i++)
     {
-        printf("%s: ", func_ptr[i].func_name);
+        set_colors(DEFAULT_COLOR);
+        printf("%-35s: ", func_ptr[i].func_name);
         uint8_t retour = func_ptr[i].func_ptr();
         if(retour == EXIT_FAILURE)
         {
+            set_colors(BRIGHTER_COLOR, RED_FOREGROUND);
             printf("fail !\n");
             return_code = EXIT_FAILURE;
             continue;
         }
+        set_colors(BRIGHTER_COLOR, GREEN_FOREGROUND);
         printf("ok\n");
     }
+    set_colors(DEFAULT_COLOR);
     return return_code;
 }
 

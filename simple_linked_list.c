@@ -97,7 +97,6 @@ uint32_t sizeof_simple_linked_list(simple_linked_list* list)
 {
     simple_linked_list* current_list = list;
     uint32_t i = 0;
-    for(;current_list != NULL; i++, current_list = current_list->next)
-    {}
+    for(;current_list != NULL; i++, current_list = current_list->next);
     return i;
 }

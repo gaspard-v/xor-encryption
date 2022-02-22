@@ -12,7 +12,8 @@ set(SRCS
     xor_cipher.c
     file_io.c
     main.c 
-    test.c)
+    test.c
+    linux_color.c)
 
 set(HEADERS
     base64_utils.h 
@@ -25,7 +26,9 @@ set(HEADERS
     file_io.h
     xor_cipher.h
     debug.h
-    test.h)
+    test.h
+    linux_color.h
+    utils.h)
 
 set(GCC_COVERAGE_COMPILE_FLAGS -mrdrnd -Werror=vla -pedantic-errors -Werror -Wall -Wextra -Wno-unused-parameter)
 set(GCC_DEBUG_FLAGS -O0)

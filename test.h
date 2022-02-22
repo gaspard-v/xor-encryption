@@ -2,7 +2,7 @@
 #define TEST_H
 #include <stdint.h>
 //#define FUNC_NB 16
-#define FUNC_NB 3
+#define FUNC_NB 4
 
 //hash map
 uint8_t test_creation_hashmap(void);
