@@ -4,7 +4,7 @@
 
 static uint64_t get_hash(size_t key_size, void* key);
 static hash_map* get_hash_map_obj(hash_map* hashmap, size_t key_size, void* key);
-static uint8_t free_himself(void* data);
+static uint8_t free_itself(void* data);
 
 
 static uint64_t get_hash(size_t key_size, void* key)
@@ -34,7 +34,7 @@ static hash_map* get_hash_map_obj(hash_map* hashmap, size_t key_size, void* key)
     return NULL;
 }
 
-static uint8_t free_himself(void* data)
+static uint8_t free_itself(void* data)
 {
     free(data);
     return 1;
@@ -54,7 +54,7 @@ hash_map* create_hash_map(size_t key_size,
         if(hashmap->bytes == NULL)
             return NULL;
         memcpy(hashmap->bytes, value, value_size);
-        hashmap->free_callback = free_himself;
+        hashmap->free_callback = free_itself;
     }
     else if(free_callback)
     {
@@ -98,7 +98,7 @@ uint8_t add_hash_map(hash_map* hashmap,
         if(current_map->next->bytes == NULL)
             return 0;
         memcpy(current_map->next->bytes, value, value_size);
-        current_map->next->free_callback = free_himself;
+        current_map->next->free_callback = free_itself;
     }
     else if(free_callback)
     {
@@ -210,7 +210,7 @@ void* modify_hash_map(hash_map* hashmap,
     } else if(free_callback) 
     {
         hashmap_t->bytes = value;
-        hashmap_t->free_callback = free_himself;
+        hashmap_t->free_callback = free_itself;
     } else {
         hashmap_t->bytes = value;
         hashmap_t->free_callback = NULL;
