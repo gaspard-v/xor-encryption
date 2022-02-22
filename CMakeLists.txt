@@ -13,7 +13,7 @@ set(SRCS
     file_io.c
     main.c 
     test.c
-    linux_color.c)
+    terminal_color.c)
 
 set(HEADERS
     base64_utils.h 
@@ -27,12 +27,12 @@ set(HEADERS
     xor_cipher.h
     debug.h
     test.h
-    linux_color.h
+    terminal_color.h
     utils.h)
 
 set(GCC_COVERAGE_COMPILE_FLAGS -mrdrnd -Werror=vla -pedantic-errors -Werror -Wall -Wextra -Wno-unused-parameter)
-set(GCC_DEBUG_FLAGS -O0)
-set(GCC_RELEASE_FLAGS -03)
+set(GCC_DEBUG_FLAGS -O0 -DDEBUG)
+set(GCC_RELEASE_FLAGS -02)
 
 set(MSVC_DEBUG_FLAGS /Od /DEBUG /INCREMENTAL /Wall)
 set(MSVC_RELEASE_FLAGS /O2 /DNDEBUG /Gy /Wall)

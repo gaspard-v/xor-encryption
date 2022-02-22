@@ -2,7 +2,7 @@
 #include "conversion_utils.h"
 #include "base64_utils.h"
 #include "simple_linked_list.h"
-#include "linux_color.h"
+#include "terminal_color.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
