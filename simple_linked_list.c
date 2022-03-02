@@ -1,6 +1,6 @@
 #include "simple_linked_list.h"
 #include <stdlib.h>
-simple_linked_list* create_simple_linked_list(void* data)
+simple_linked_list* create_simple_linked_list(void* const data)
 {
     simple_linked_list* list = calloc(1, sizeof(simple_linked_list));
     list->data = data;
@@ -8,7 +8,7 @@ simple_linked_list* create_simple_linked_list(void* data)
     return list;
 }
 
-uint8_t add_simple_node(simple_linked_list* list, void* data)
+uint8_t add_simple_node(simple_linked_list* const restrict list, void* const restrict data)
 {
     simple_linked_list* current_list = list;
     for(;current_list->next != NULL;)
@@ -23,17 +23,18 @@ uint8_t add_simple_node(simple_linked_list* list, void* data)
     return 1;
 }
 
-void* get_simple_node(simple_linked_list* list, uint32_t position)
+void* get_simple_node(simple_linked_list* const list, uint32_t position)
 {
     simple_linked_list* current_list = list;
     for(uint32_t i = 0 ; current_list != NULL ; i++)
     {
         if(i == position)
             return current_list->data;
+        current_list = current_list->next;
     }
     return NULL;
 }
-void* get_last_simple_node(simple_linked_list* list)
+void* get_last_simple_node(simple_linked_list* const list)
 {
     simple_linked_list* current_list = list;
     if(list == NULL)
@@ -44,7 +45,7 @@ void* get_last_simple_node(simple_linked_list* list)
     }
     return current_list->data;
 }
-void* delete_simple_node(simple_linked_list* list, uint32_t position)
+void* delete_simple_node(simple_linked_list* const list, uint32_t position)
 {
     simple_linked_list* current_list = list;
     simple_linked_list* previous_list = NULL;
@@ -67,9 +68,9 @@ void* delete_simple_node(simple_linked_list* list, uint32_t position)
     return NULL;
 }
 
-void* foreach_simple_node(simple_linked_list* list, 
-                          simple_linked_list** current_list, 
-                          uint32_t* idx)
+void* foreach_simple_node(simple_linked_list* const restrict list, 
+                          simple_linked_list** restrict current_list, 
+                          uint32_t* const restrict idx)
 {
     if(*idx == 0)
     {
@@ -83,7 +84,7 @@ void* foreach_simple_node(simple_linked_list* list,
     return (*current_list)->data;
 }
 
-uint8_t coa_simple_linked_list(simple_linked_list** list, void* data)
+uint8_t coa_simple_linked_list(simple_linked_list** restrict list, void* const restrict data)
 {
     if(*list == NULL)
     {
@@ -93,7 +94,7 @@ uint8_t coa_simple_linked_list(simple_linked_list** list, void* data)
     return add_simple_node(*list, data);
 }
 
-uint32_t sizeof_simple_linked_list(simple_linked_list* list)
+uint32_t sizeof_simple_linked_list(simple_linked_list* const list)
 {
     simple_linked_list* current_list = list;
     uint32_t i = 0;
