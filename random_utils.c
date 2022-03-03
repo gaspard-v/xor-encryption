@@ -4,13 +4,11 @@
 char get_random_char(void)
 {
     static union {
-        char c[sizeof(long long)];
-        unsigned long long l;
+        uint64_t l;
+        char c[sizeof(uint64_t)];
     } random;
     static uint8_t i = 0;
-    if(i%sizeof(long long) == 0) {
+    if(i%sizeof(uint64_t) == 0)
         _rdrand64_step(&(random.l));
-        i = 0;
-    }
     return random.c[i++];
 }
